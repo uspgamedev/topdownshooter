@@ -1,0 +1,6 @@
+
+*.sdf
+*.vcxproj.filters
+*.vcxproj.user
+*.dll
+*.opensdf
