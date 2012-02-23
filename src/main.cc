@@ -1,4 +1,5 @@
 #include <ugdk/base/engine.h>
+#include "game/gamecontroller.h"
 
 int main(int argc, char **argv) {
 	ugdk::Engine::Configuration engine_config;
@@ -8,7 +9,7 @@ int main(int argc, char **argv) {
     ugdk::Engine* engine = ugdk::Engine::reference();
     engine->Initialize(engine_config);
 
-
+    engine->PushScene(new game::GameController);
 
     engine->Run();
     engine->Release();

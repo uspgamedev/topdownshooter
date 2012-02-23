@@ -39,14 +39,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;D:\stuff\programming\vs_visualc\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)src;D:\stuff\programming\vs_visualc\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;D:\stuff\programming\vs_visualc\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;D:\stuff\programming\vs_visualc\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)src;D:\stuff\programming\vs_visualc\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib;D:\stuff\programming\vs_visualc\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
@@ -87,7 +87,17 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\gameobject.cc" />
+    <ClCompile Include="src\game\gamecontroller.cc" />
     <ClCompile Include="src\main.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game\component\graphic.h" />
+    <ClInclude Include="src\game\component.h" />
+    <ClInclude Include="src\game\gameobject.h" />
+    <ClInclude Include="src\game\gamecontroller.h" />
+    <ClInclude Include="src\game\component\controller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
