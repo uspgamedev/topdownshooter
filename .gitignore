@@ -4,3 +4,6 @@
 *.vcxproj.user
 *.dll
 *.opensdf
+/tmp
+/bin
+/ipch
