@@ -3,6 +3,7 @@
 
 #include <ugdk/action/entity.h>
 #include <ugdk/math/vector2D.h>
+#include <pyramidworks/collision/collisionobject.h>
 #include "game/component.h"
 
 namespace game {
@@ -26,6 +27,7 @@ class GameObject : public ugdk::Entity {
     component::Controller* controller_component_;
 
     ugdk::Vector2D world_position_;
+    pyramidworks::collision::CollisionObject* collision_object_;
 };
 
 } // namespace game

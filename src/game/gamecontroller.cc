@@ -4,6 +4,7 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/gamecontroller.h"
 

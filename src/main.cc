@@ -1,4 +1,5 @@
 #include <ugdk/base/engine.h>
+#include <pyramidworks/collision/collisionmanager.h>
 #include "game/gamecontroller.h"
 
 int main(int argc, char **argv) {
@@ -8,6 +9,8 @@ int main(int argc, char **argv) {
 
     ugdk::Engine* engine = ugdk::Engine::reference();
     engine->Initialize(engine_config);
+
+    pyramidworks::collision::CollisionManager::reference()->Generate("Object");
 
     engine->PushScene(new game::GameController);
 
