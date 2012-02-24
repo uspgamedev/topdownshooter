@@ -31,21 +31,20 @@ static bool objectIsDead (const GameObject* value) {
     return is_dead;
 }
 
-GameController::GameController() : time_left_(new ugdk::time::TimeAccumulator(15000)), hero_(nullptr) {
+GameController::GameController() : map_size_(500.0, 500.0), time_left_(new ugdk::time::TimeAccumulator(15000)), hero_(nullptr) {
     time_left_->Restart();
 
+    ugdk::graphic::SolidRectangle* background_rect = new ugdk::graphic::SolidRectangle(map_size_);
+    content_node()->set_drawable(background_rect);
+
     builder::ObjectBuilder builder;
-    this->AddGameObject(hero_ = builder.BuildHero());
-
-    ugdk::Vector2D map_size(100, 100);
-
     for(int i = 0; i < 5; ++i) {
         GameObject* enemy = builder.BuildEnemy();
-        enemy->set_world_position(ugdk::Vector2D(getRandomNumber(0.0, map_size.x), getRandomNumber(0.0, map_size.y)));
+        enemy->set_world_position(ugdk::Vector2D(getRandomNumber(0.0, map_size_.x), getRandomNumber(0.0, map_size_.y)));
         this->AddGameObject(enemy);
     }
-    ugdk::graphic::SolidRectangle* background_rect = new ugdk::graphic::SolidRectangle(map_size);
-    content_node()->set_drawable(background_rect);
+    this->AddGameObject(hero_ = builder.BuildHero());
+    hero_->set_world_position(map_size_ * 0.5);
 }
 
 GameController::~GameController() {

@@ -18,12 +18,15 @@ class GameController : public ugdk::Scene {
 
     void AddGameObject(GameObject* game_object);
 
+    const ugdk::Vector2D& map_size() const { return map_size_; }
+
   private:
     typedef std::list<GameObject*> GameObjectList;
     void HandleCollisions();
     void ClearDeadGameObjects();
     void AddPendingGameObjects();
 
+    ugdk::Vector2D map_size_;
     ugdk::time::TimeAccumulator* time_left_;
     GameObject* hero_;
 

@@ -13,7 +13,7 @@ namespace game {
 class GameObject : public ugdk::Entity {
   typedef ugdk::Entity super;
   public:
-    GameObject(component::Graphic*, component::Controller*, component::Damageable* = nullptr);
+    GameObject(component::Graphic*, component::Controller*, component::Physics*, component::Damageable* = nullptr);
     ~GameObject();
 
     void Update(double dt);
@@ -21,6 +21,7 @@ class GameObject : public ugdk::Entity {
     component::Graphic*       graphic_component() { return    graphic_component_; }
     component::Controller* controller_component() { return controller_component_; }
     component::Damageable* damageable_component() { return damageable_component_; }
+    component::Physics*       physics_component() { return    physics_component_; }
 
     void set_world_position(const ugdk::Vector2D& position);
     const ugdk::Vector2D& world_position() const { return world_position_; }
@@ -43,6 +44,7 @@ class GameObject : public ugdk::Entity {
     component::Graphic*       graphic_component_;
     component::Controller* controller_component_;
     component::Damageable* damageable_component_;
+    component::Physics*       physics_component_;
     
     ugdk::time::TimeAccumulator* timed_life_;
     ugdk::Vector2D world_position_;

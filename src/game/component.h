@@ -7,6 +7,7 @@ namespace component {
 class Graphic;
 class Controller;
 class Damageable;
+class Physics;
 
 class AiController;
 class IdleController;

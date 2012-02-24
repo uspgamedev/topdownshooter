@@ -87,6 +87,7 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\component\physics.cc" />
     <ClCompile Include="src\game\component\damageable.cc" />
     <ClCompile Include="src\game\builder\objectbuilder.cc" />
     <ClCompile Include="src\game\component\aicontroller.cc" />
@@ -104,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game\component\physics.h" />
     <ClInclude Include="src\game\component\damageable.h" />
     <ClInclude Include="src\game\builder\objectbuilder.h" />
     <ClInclude Include="src\game\component\aicontroller.h" />
