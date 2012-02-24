@@ -6,6 +6,11 @@ namespace component {
 
 class Graphic;
 class Controller;
+class Damageable;
+
+class AiController;
+class IdleController;
+class PlayerController;
 
 } // namespace component
 } // namespace game

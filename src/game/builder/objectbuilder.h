@@ -1,6 +1,7 @@
 #ifndef TOPDOWN_GAME_BUILDER_OBJECTBUILDER_H_
 #define TOPDOWN_GAME_BUILDER_OBJECTBUILDER_H_
 
+#include <ugdk/math/vector2D.h>
 #include "game.h"
 
 namespace game {
@@ -12,6 +13,8 @@ class ObjectBuilder {
     ~ObjectBuilder() {}
 
     GameObject* BuildHero();
+    GameObject* BuildEnemy();
+    GameObject* BuildProjectile(const ugdk::Vector2D& direction, double velocity = 200);
 };
 
 } // namespace builder

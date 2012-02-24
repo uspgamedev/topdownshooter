@@ -87,8 +87,10 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\component\damageable.cc" />
     <ClCompile Include="src\game\builder\objectbuilder.cc" />
-    <ClCompile Include="src\game\component\controller.cc" />
+    <ClCompile Include="src\game\component\aicontroller.cc" />
+    <ClCompile Include="src\game\component\playercontroller.cc" />
     <ClCompile Include="src\game\component\graphic.cc" />
     <ClCompile Include="src\game\gameobject.cc" />
     <ClCompile Include="src\game\gamecontroller.cc" />
@@ -102,12 +104,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game\component\damageable.h" />
     <ClInclude Include="src\game\builder\objectbuilder.h" />
+    <ClInclude Include="src\game\component\aicontroller.h" />
+    <ClInclude Include="src\game\component\idlecontroller.h" />
+    <ClInclude Include="src\game\component\controller.h" />
     <ClInclude Include="src\game\component\graphic.h" />
     <ClInclude Include="src\game\component.h" />
     <ClInclude Include="src\game\gameobject.h" />
     <ClInclude Include="src\game\gamecontroller.h" />
-    <ClInclude Include="src\game\component\controller.h" />
+    <ClInclude Include="src\game\component\playercontroller.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />

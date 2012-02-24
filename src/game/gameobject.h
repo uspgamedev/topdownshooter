@@ -3,31 +3,53 @@
 
 #include <ugdk/action/entity.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/time.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include "game/component.h"
+#include "game.h"
 
 namespace game {
 
 class GameObject : public ugdk::Entity {
   typedef ugdk::Entity super;
   public:
-    GameObject(component::Graphic* graphic, component::Controller* controller);
+    GameObject(component::Graphic*, component::Controller*, component::Damageable* = nullptr);
     ~GameObject();
 
     void Update(double dt);
 
     component::Graphic*       graphic_component() { return    graphic_component_; }
     component::Controller* controller_component() { return controller_component_; }
+    component::Damageable* damageable_component() { return damageable_component_; }
 
-          ugdk::Vector2D& world_position()       { return world_position_; }
+    void set_world_position(const ugdk::Vector2D& position);
     const ugdk::Vector2D& world_position() const { return world_position_; }
+
+    void set_velocity(const ugdk::Vector2D& velocity) { velocity_ = velocity; }
+          ugdk::Vector2D& velocity()       { return velocity_; }
+    const ugdk::Vector2D& velocity() const { return velocity_; }
+
+    pyramidworks::collision::CollisionObject* collision_object() { return collision_object_; }
+
+    void Die() { dead_ = true; }
+    bool dead() const { return dead_; }
+
+    GameController* game_controller() { return game_controller_; }
+    void set_game_controller(GameController* game) { game_controller_ = game; }
+
+    void set_timed_life(ugdk::time::TimeAccumulator* timed_life) { timed_life_ = timed_life; }
 
   private:
     component::Graphic*       graphic_component_;
     component::Controller* controller_component_;
-
+    component::Damageable* damageable_component_;
+    
+    ugdk::time::TimeAccumulator* timed_life_;
     ugdk::Vector2D world_position_;
+    ugdk::Vector2D velocity_;
     pyramidworks::collision::CollisionObject* collision_object_;
+    bool dead_;
+    GameController* game_controller_;
 };
 
 } // namespace game

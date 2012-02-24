@@ -10,7 +10,12 @@ int main(int argc, char **argv) {
     ugdk::Engine* engine = ugdk::Engine::reference();
     engine->Initialize(engine_config);
 
-    pyramidworks::collision::CollisionManager::reference()->Generate("Object");
+    pyramidworks::collision::CollisionManager* collision = pyramidworks::collision::CollisionManager::reference();
+    collision->Generate("Object");
+    collision->Generate("Creature", "Object");
+    collision->Generate("Hero", "Creature");
+    collision->Generate("Enemy", "Creature");
+    collision->Generate("Projectile", "Object");
 
     engine->PushScene(new game::GameController);
 

@@ -20,6 +20,8 @@ class GameController : public ugdk::Scene {
 
   private:
     typedef std::list<GameObject*> GameObjectList;
+    void HandleCollisions();
+    void ClearDeadGameObjects();
     void AddPendingGameObjects();
 
     ugdk::time::TimeAccumulator* time_left_;

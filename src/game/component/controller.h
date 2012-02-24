@@ -11,12 +11,9 @@ class Controller {
   //typedef ugdk::Scene super;
   public:
     Controller() {}
-    ~Controller() {}
+    virtual ~Controller() {}
 
-    void Update(double dt, GameObject* owner);
-
-  private:
-    static const double VELOCITY;
+    virtual void Update(double dt, GameObject* owner) = 0;
 };
 
 } // namespace component
