@@ -2,6 +2,7 @@
 #define TOPDOWN_GAME_COMPONENT_GRAPHIC_H_
 
 #include <ugdk/graphic.h>
+#include "game.h"
 
 namespace game {
 namespace component {
@@ -9,10 +10,10 @@ namespace component {
 class Graphic {
   //typedef ugdk::Scene super;
   public:
-    Graphic() : node_(nullptr) {}
-    ~Graphic() {}
+    Graphic();
+    ~Graphic();
 
-    void Update(double dt) {}
+    void Update(double dt, GameObject* owner);
 
           ugdk::graphic::Node* node()       { return node_; }
     const ugdk::graphic::Node* node() const { return node_; }

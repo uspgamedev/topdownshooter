@@ -2,6 +2,7 @@
 #define TOPDOWN_GAME_COMPONENT_CONTROLLER_H_
 
 #include <ugdk/graphic.h>
+#include "game.h"
 
 namespace game {
 namespace component {
@@ -12,9 +13,10 @@ class Controller {
     Controller() {}
     ~Controller() {}
 
-    void Update(double dt) {}
+    void Update(double dt, GameObject* owner);
 
   private:
+    static const double VELOCITY;
 };
 
 } // namespace component

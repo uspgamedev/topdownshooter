@@ -2,6 +2,7 @@
 #define TOPDOWN_GAME_GAMEOBJECT_H_
 
 #include <ugdk/action/entity.h>
+#include <ugdk/math/vector2D.h>
 #include "game/component.h"
 
 namespace game {
@@ -17,9 +18,14 @@ class GameObject : public ugdk::Entity {
     component::Graphic*       graphic_component() { return    graphic_component_; }
     component::Controller* controller_component() { return controller_component_; }
 
-private:
+          ugdk::Vector2D& world_position()       { return world_position_; }
+    const ugdk::Vector2D& world_position() const { return world_position_; }
+
+  private:
     component::Graphic*       graphic_component_;
     component::Controller* controller_component_;
+
+    ugdk::Vector2D world_position_;
 };
 
 } // namespace game

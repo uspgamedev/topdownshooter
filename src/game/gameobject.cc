@@ -15,8 +15,8 @@ GameObject::~GameObject() {
 }
 
 void GameObject::Update(double dt) {
-    graphic_component_->Update(dt);
-    controller_component_->Update(dt);
+    controller_component_->Update(dt, this);
+    graphic_component_->Update(dt, this);
 }
 
 } // namespace game

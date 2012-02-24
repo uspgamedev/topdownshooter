@@ -87,12 +87,16 @@
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\builder\objectbuilder.cc" />
+    <ClCompile Include="src\game\component\controller.cc" />
+    <ClCompile Include="src\game\component\graphic.cc" />
     <ClCompile Include="src\game\gameobject.cc" />
     <ClCompile Include="src\game\gamecontroller.cc" />
     <ClCompile Include="src\main.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game\builder\objectbuilder.h" />
     <ClInclude Include="src\game\component\graphic.h" />
     <ClInclude Include="src\game\component.h" />
     <ClInclude Include="src\game\gameobject.h" />

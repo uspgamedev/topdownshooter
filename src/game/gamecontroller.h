@@ -23,6 +23,8 @@ class GameController : public ugdk::Scene {
     void AddPendingGameObjects();
 
     ugdk::time::TimeAccumulator* time_left_;
+    GameObject* hero_;
+
     GameObjectList game_objects_;
     GameObjectList pending_game_objects_;
 };
