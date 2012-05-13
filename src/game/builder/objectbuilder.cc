@@ -29,7 +29,7 @@ COLLISION_DIRECT(double, DamageCollision, obj) {
 
 GameObject* ObjectBuilder::BuildHero() {
     GameObject* hero = new GameObject(manager_, new component::Graphic, 
-        new component::PlayerController, new component::Physics, new component::Damageable(10.0));
+        new component::PlayerController(*this), new component::Physics(map_size_), new component::Damageable(10.0));
 
     ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(15.0, 15.0));
     graphic->set_color(ugdk::Color(0.25, 1.00, 0.25));
@@ -44,7 +44,7 @@ GameObject* ObjectBuilder::BuildHero() {
 
 GameObject* ObjectBuilder::BuildEnemy() {
     GameObject* enemy = new GameObject(manager_, new component::Graphic, 
-        new component::AiController, new component::Physics, new component::Damageable(4.0));
+        new component::AiController, new component::Physics(map_size_), new component::Damageable(4.0));
 
     ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(15.0, 15.0));
     graphic->set_color(ugdk::Color(1.00, 0.25, 0.25));
@@ -59,7 +59,7 @@ GameObject* ObjectBuilder::BuildEnemy() {
 
 GameObject* ObjectBuilder::BuildProjectile(const ugdk::Vector2D& direction, double velocity) {
     GameObject* projectile = new GameObject(manager_, new component::Graphic, 
-        new component::IdleController, new component::Physics);
+        new component::IdleController, new component::Physics(map_size_));
     projectile->set_velocity(direction * velocity);
     projectile->set_timed_life(new ugdk::time::TimeAccumulator(4000));
 

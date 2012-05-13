@@ -10,8 +10,8 @@ namespace builder {
 
 class ObjectBuilder {
   public:
-    ObjectBuilder(pyramidworks::collision::CollisionManager* manager)
-        : manager_(manager) {}
+      ObjectBuilder(const ugdk::Vector2D& map_size, pyramidworks::collision::CollisionManager* manager)
+        : map_size_(map_size), manager_(manager) {}
     ~ObjectBuilder() {}
 
     GameObject* BuildHero();
@@ -19,6 +19,7 @@ class ObjectBuilder {
     GameObject* BuildProjectile(const ugdk::Vector2D& direction, double velocity = 200);
 
   private:
+    ugdk::Vector2D map_size_;
     pyramidworks::collision::CollisionManager* manager_;
 };
 

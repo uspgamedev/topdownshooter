@@ -8,9 +8,8 @@
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
-#include "game/builder/controllerbuilder.h"
+#include "game/builder/scenebuilder.h"
 
-#include "game/gamecontroller.h"
 #include "game/gameobject.h"
 #include "game/builder/objectbuilder.h"
 
@@ -56,7 +55,9 @@ static bool UpdateCamera(GameObject* reference, ugdk::graphic::Node* node, doubl
     return true;
 }
 
-GameController* ControllerBuilder::BuildRandomController() {
+struct PogScene : public Scene {};
+
+Scene* SceneBuilder::BuildRandomScene() {
     ugdk::Vector2D map_size(500.0, 500.0);
 
     ugdk::Vector2D top_left;
@@ -68,12 +69,12 @@ GameController* ControllerBuilder::BuildRandomController() {
     collision_manager->Generate("Enemy", "Creature");
     collision_manager->Generate("Projectile", "Object");
 
-    GameController* controller = new GameController(map_size, collision_manager);
+    Scene* controller = new PogScene();
 
     ugdk::graphic::SolidRectangle* background_rect = new ugdk::graphic::SolidRectangle(map_size);
     controller->content_node()->set_drawable(background_rect);
 
-    ObjectBuilder builder(collision_manager);
+    ObjectBuilder builder(map_size, collision_manager);
     for(int i = 0; i < 5; ++i) {
         GameObject* enemy = builder.BuildEnemy();
         enemy->set_world_position(ugdk::Vector2D(getRandomNumber(0.0, map_size.x), getRandomNumber(0.0, map_size.y)));
