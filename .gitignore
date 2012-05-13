@@ -8,3 +8,5 @@
 /bin
 /ipch
 *.suo
+*.lib
+*.pdb
