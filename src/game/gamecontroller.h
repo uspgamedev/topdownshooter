@@ -9,7 +9,8 @@ namespace game {
 class GameController : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
-    GameController();
+    GameController(const ugdk::Vector2D& map_size, pyramidworks::collision::CollisionManager* manager)
+        :   map_size_(map_size), collision_manager_(manager) {}
 
     const ugdk::Vector2D& map_size() const { return map_size_; }
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
