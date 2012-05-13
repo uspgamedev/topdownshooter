@@ -40,7 +40,7 @@ void PlayerController::Update(double dt, GameObject* owner) {
         builder::ObjectBuilder build(owner->game_controller()->collision_manager());
         GameObject* proj = build.BuildProjectile(direction.Normalize(), 400);
         proj->set_world_position(owner->world_position());
-        owner->game_controller()->AddGameObject(proj);
+        owner->game_controller()->QueuedAddEntity(proj);
 
         fire_cooldown_->Restart();
     }

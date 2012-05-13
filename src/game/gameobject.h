@@ -32,8 +32,8 @@ class GameObject : public ugdk::action::Entity {
 
     pyramidworks::collision::CollisionObject* collision_object() { return collision_object_; }
 
-    void Die() { dead_ = true; }
-    bool dead() const { return dead_; }
+    void Die() { to_be_removed_ = true; }
+    bool dead() const { return to_be_removed(); }
 
     GameController* game_controller() { return game_controller_; }
     void set_game_controller(GameController* game) { game_controller_ = game; }
@@ -52,7 +52,6 @@ class GameObject : public ugdk::action::Entity {
     ugdk::Vector2D world_position_;
     ugdk::Vector2D velocity_;
     pyramidworks::collision::CollisionObject* collision_object_;
-    bool dead_;
     GameController* game_controller_;
 };
 

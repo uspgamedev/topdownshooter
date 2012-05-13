@@ -20,8 +20,7 @@ GameObject::GameObject(pyramidworks::collision::CollisionManager* manager,
     controller_component_(controller),
     damageable_component_(damageable),
     physics_component_(physics),
-    timed_life_(nullptr),
-    dead_(false) {
+    timed_life_(nullptr) {
         
         collision_object_ = new pyramidworks::collision::CollisionObject(manager, this);
 }
