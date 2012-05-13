@@ -4,16 +4,16 @@
 #include <ugdk/action/entity.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time.h>
-#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision.h>
 #include "game/component.h"
 #include "game.h"
 
 namespace game {
 
-class GameObject : public ugdk::Entity {
-  typedef ugdk::Entity super;
+class GameObject : public ugdk::action::Entity {
   public:
-    GameObject(component::Graphic*, component::Controller*, component::Physics*, component::Damageable* = nullptr);
+    GameObject(pyramidworks::collision::CollisionManager*, component::Graphic*, 
+        component::Controller*, component::Physics*, component::Damageable* = nullptr);
     ~GameObject();
 
     void Update(double dt);
@@ -39,6 +39,8 @@ class GameObject : public ugdk::Entity {
     void set_game_controller(GameController* game) { game_controller_ = game; }
 
     void set_timed_life(ugdk::time::TimeAccumulator* timed_life) { timed_life_ = timed_life; }
+
+    void OnSceneAdd(ugdk::action::Scene* scene);
 
   private:
     component::Graphic*       graphic_component_;

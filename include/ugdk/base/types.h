@@ -1,21 +1,24 @@
 #ifndef HORUSEYE_FRAMEWORK_TYPES_H_
 #define HORUSEYE_FRAMEWORK_TYPES_H_
 
-#include <ugdk/config/config.h>
-#include "SDL_stdinc.h"
+#include <stdint.h>
+
+#ifdef SWIG
+#pragma SWIG nowarn=312
+#endif
 
 namespace ugdk {
 
-typedef Uint8 uint8;
-typedef Uint16 uint16;
-typedef Uint32 uint32;
-typedef Uint64 uint64;
-typedef Sint8 int8;
-typedef Sint16 int16;
-typedef Sint32 int32;
-typedef Sint64 int64;
+typedef uint8_t uint8;
+typedef uint16_t uint16;
+typedef uint32_t uint32;
+typedef uint64_t uint64;
+typedef int8_t int8;
+typedef int16_t int16;
+typedef int32_t int32;
+typedef int64_t int64;
 
-typedef Uint8 Mirror;
+typedef uint8 Mirror;
 static const Mirror MIRROR_NONE   = 0;
 static const Mirror MIRROR_HFLIP  = 1;
 static const Mirror MIRROR_VFLIP  = 2;
@@ -29,15 +32,28 @@ typedef struct Color {
         g(((hex_val & 0x00FF00) >>  8) / 255.0),
         b(((hex_val & 0x0000FF)      ) / 255.0),
         a(_a) {}
-    
+
 	union {
         struct { double r, g, b, a; };
         struct { double val[4];  };
     };
+    
+    double get_r() const { return r; }
+    double get_g() const { return g; }
+    double get_b() const { return b; }
+    double get_a() const { return a; }
+    
+    void set_r(double r_)  { r = r_; }
+    void set_g(double g_)  { g = g_; }
+    void set_b(double b_)  { b = b_; }
+    void set_a(double a_)  { a = a_; }
+    
 } Color;
 
 //static Color BLACK = {0.0, 0.0, 0.0};
+#ifndef SWIG
 static const Color WHITE(1.0, 1.0, 1.0);
+#endif
 
 }  // namespace ugdk
 

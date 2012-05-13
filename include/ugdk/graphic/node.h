@@ -19,7 +19,8 @@ class Node {
             light_(NULL),
             active_(true),
             zindex_(0.0),
-            parent_(NULL) {}
+            parent_(NULL),
+            must_sort_(false) {}
 
     ~Node();
 
@@ -39,11 +40,13 @@ class Node {
           Light* light()             { return    light_; }
     const Light* light()       const { return    light_; }
           bool   active()      const { return   active_; }
-          double  zindex()      const { return   zindex_; }
+          double zindex()      const { return   zindex_; }
 
     void AddChild(Node *child) {
+        if(child->parent_) child->parent_->RemoveChild(child);
         childs_.push_back(child);
         child->parent_ = this;
+        must_sort_ = true;
     }
     void RemoveChild(Node *child);
 

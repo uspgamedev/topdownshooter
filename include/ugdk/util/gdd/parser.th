@@ -10,7 +10,7 @@ namespace ugdk {
 
 namespace gdd {
 
-struct ParseStatus {
+typedef struct ParseStatus {
     enum Type {
         OK,
         FILE_NOT_FOUND,
@@ -19,7 +19,7 @@ struct ParseStatus {
     };
   private:
     ParseStatus() {}
-};
+} ParseStatus;
 
 /**
  * Parser for the Game Data Description (GDD) syntax.
@@ -31,7 +31,7 @@ class Parser {
 
     Parser(DescriptionProtocol<T>* loader) : loader_(loader) {}
 
-    ParseStatus::Type Parse(std::string gddfile_path);
+    ParseStatus::Type Parse(const std::string& gddfile_path);
 
     virtual ~Parser() {}
 

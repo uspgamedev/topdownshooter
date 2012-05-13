@@ -71,7 +71,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)include;$(SolutionDir)src;$(SDLDIR)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)include;$(SolutionDir)src;$(SDLDIR)\include;$(SDLDIR)\include\SDL;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)lib64;$(SDLDIR)\lib64;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>tmp\$(Configuration)\</IntDir>
@@ -164,12 +164,6 @@
     <ClCompile Include="src\game\gameobject.cc" />
     <ClCompile Include="src\game\gamecontroller.cc" />
     <ClCompile Include="src\main.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionclass.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionlogic.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
-    <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
-    <ClCompile Include="src\pyramidworks\geometry\rect.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
@@ -184,13 +178,6 @@
     <ClInclude Include="src\game\gameobject.h" />
     <ClInclude Include="src\game\gamecontroller.h" />
     <ClInclude Include="src\game\component\playercontroller.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
-    <ClInclude Include="src\pyramidworks\geometry\circle.h" />
-    <ClInclude Include="src\pyramidworks\geometry\geometricshape.h" />
-    <ClInclude Include="src\pyramidworks\geometry\rect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

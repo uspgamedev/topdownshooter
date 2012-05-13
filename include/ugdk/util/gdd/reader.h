@@ -19,7 +19,7 @@ class Reader {
 
     Reader(FILE *file) : file_path_("<unknown>"), file_(file), line_(1) {}
 
-    Reader(std::string &file_path);
+    Reader(const std::string &file_path);
 
     ~Reader() {}
 
@@ -79,9 +79,9 @@ class Reader {
         ASSERT_PARSE(VALID_NAME_BEGIN(token),
                      ERR_BAD_NAME_BEGIN((*this)),
                      false);
-        name.push_back(token);
+        name.push_back(static_cast<char>(token));
         for (token = fgetc(file_); VALID_NAME_TOKEN(token); token = fgetc(file_))
-            name.push_back(token);
+            name.push_back(static_cast<char>(token));
         ungetc(token, file_);
         return true;
     }
@@ -89,7 +89,7 @@ class Reader {
     void Value(std::string &value) {
         int token = 0;
         for (token = fgetc(file_); VALID_VALUE_TOKEN(token); token = fgetc(file_))
-            value.push_back(token);
+            value.push_back(static_cast<char>(token));
         ungetc(token, file_);
     }
 

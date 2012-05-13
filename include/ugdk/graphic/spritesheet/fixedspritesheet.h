@@ -5,7 +5,6 @@
 #include <vector>
 #include <utility>
 
-#include <ugdk/config/config.h>
 #include "SDL_image.h"
 #include "SDL_opengl.h"
 
@@ -13,6 +12,10 @@
 #include <ugdk/graphic.h>
 #include <ugdk/graphic/spritesheet.h>
 #include <ugdk/graphic/videomanager.h>
+
+#ifdef SWIG
+#pragma SWIG nowarn=312
+#endif
 
 namespace ugdk {
 namespace graphic {

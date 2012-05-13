@@ -4,19 +4,17 @@
 #include <string>
 #include <list>
 #include <set>
-#include <ugdk/util/intervalkdtree.h>
+#include <ugdk/util.h>
+#include <pyramidworks/collision.h>
 
 namespace pyramidworks {
 namespace collision {
 
-class CollisionObject;
-
-typedef std::list<const CollisionObject *> CollisionObjectList;
-
 /// \class CollisionClass collisionclass.h "pyramidworks/collision/collisionclass.h"
 class CollisionClass {
+  typedef ugdk::ikdtree::IntervalKDTree<const CollisionObject*, 2> ObjectTree;
   public:
-    ~CollisionClass() {}
+    ~CollisionClass();
     const CollisionClass* parent() const { return parent_; }
     void set_parent(CollisionClass* parent) { parent_ = parent; }
 
@@ -24,23 +22,21 @@ class CollisionClass {
 
     void AddObject(const CollisionObject *obj);
     void RemoveObject(const CollisionObject *obj);
+    void RefreshObject(const CollisionObject *obj);
 
 #ifdef DEBUG
     void set_name(const std::string &name) { name_ = name; }
 #endif
   private:
     friend class CollisionManager;
-    CollisionClass() : parent_(NULL), objects_tree_(5) {}
-    void Update ();
-
-    const CollisionClass* parent_;
-    std::set<const CollisionObject *> objects_;
-    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2> objects_tree_;
+    CollisionClass(const ugdk::ikdtree::Box<2>& tree_bounding_box);
 
 #ifdef DEBUG
     // Unnecessary, used for debugging purposes.
     std::string name_;
 #endif
+    const CollisionClass* parent_;
+    ObjectTree* objects_tree_;
 };
 
 } // namespace collision

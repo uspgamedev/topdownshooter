@@ -1,8 +1,10 @@
 #include <ugdk/time/timeaccumulator.h>
+#include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
 
 #include "game/gameobject.h"
 
+#include "game/gamecontroller.h"
 #include "game/component/graphic.h"
 #include "game/component/controller.h"
 #include "game/component/damageable.h"
@@ -10,7 +12,8 @@
 
 namespace game {
 
-GameObject::GameObject(component::Graphic* graphic, component::Controller* controller, 
+GameObject::GameObject(pyramidworks::collision::CollisionManager* manager,
+    component::Graphic* graphic, component::Controller* controller, 
     component::Physics* physics, component::Damageable* damageable)
   
   : graphic_component_(graphic),
@@ -20,7 +23,7 @@ GameObject::GameObject(component::Graphic* graphic, component::Controller* contr
     timed_life_(nullptr),
     dead_(false) {
         
-        collision_object_ = new pyramidworks::collision::CollisionObject(this);
+        collision_object_ = new pyramidworks::collision::CollisionObject(manager, this);
 }
 
 GameObject::~GameObject() {
@@ -43,6 +46,13 @@ void GameObject::Update(double dt) {
 void GameObject::set_world_position(const ugdk::Vector2D& position) {
     world_position_ = position;
     collision_object_->MoveTo(position);
+}
+
+void GameObject::OnSceneAdd(ugdk::action::Scene* scene) {
+    game_controller_ = static_cast<GameController*>(scene);
+    collision_object_->StartColliding();
+    if(graphic_component_ && graphic_component_->node())
+        scene->content_node()->AddChild(graphic_component_->node());
 }
 
 } // namespace game

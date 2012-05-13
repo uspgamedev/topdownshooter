@@ -37,7 +37,7 @@ void PlayerController::Update(double dt, GameObject* owner) {
     if(input->MouseDown(ugdk::input::M_BUTTON_LEFT) && fire_cooldown_->Expired()) {
         ugdk::Vector2D direction = input->GetMousePosition() - VIDEO_MANAGER()->video_size() * 0.5;
         
-        builder::ObjectBuilder build;
+        builder::ObjectBuilder build(owner->game_controller()->collision_manager());
         GameObject* proj = build.BuildProjectile(direction.Normalize(), 400);
         proj->set_world_position(owner->world_position());
         owner->game_controller()->AddGameObject(proj);

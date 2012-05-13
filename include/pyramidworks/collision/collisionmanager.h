@@ -3,28 +3,20 @@
 
 #include <string>
 #include <map>
+#include <set>
+#include <ugdk/util/intervalkdtree.h>
+#include <pyramidworks/collision.h>
+#include <ugdk/action.h>
 
 namespace pyramidworks {
 namespace collision {
-
-#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionManager::reference()->Get( #NAME )
-
-class CollisionClass;
 
 /// \class CollisionManager collisionmanager.h "pyramidworks/collision/collisionmanager.h"
 /// A singleton that manages all collisions.
 class CollisionManager {
   public:
-    /// The singleton's reference method.
-    /** @return A pointer to the only CollisionManager. */
-    static CollisionManager* reference() {
-        return reference_ ? reference_ : reference_ = new CollisionManager;
-    }
-    static bool Delete() {
-        if(!reference_) return false;
-        delete reference_; // The destructor takes care of clearing everything.
-        return true;
-    }
+    CollisionManager(const ugdk::ikdtree::Box<2>& tree_bounding_box);
+    ~CollisionManager();
 
     /// Creates a CollisionClass with no parent.
     void Generate(const std::string &name);
@@ -43,18 +35,17 @@ class CollisionManager {
       * @return A pointer to a CollisionClass. */
     CollisionClass* Get(const std::string &name) { return cache_[name]; }
     CollisionClass* Get(const char n[]) { const std::string str(n); return Get(str); }
-    
-    /// Updates the colliding objects' positions.
-    void Update ();
+
+    void AddActiveObject(const CollisionObject* obj) { active_objects_.insert(obj); }
+    void RemoveActiveObject(const CollisionObject* obj) { active_objects_.erase(obj); }
+
+    /// Warning: this task depends on resources from this object. Do not use it after this object is destroyed.
+    ugdk::action::Task* GenerateHandleCollisionTask();
     
   private:
-    // Singleton stuff
-    CollisionManager() {}
-    ~CollisionManager();
-    
-    static CollisionManager *reference_;
-
+    const ugdk::ikdtree::Box<2> tree_bounding_box_;
     std::map<std::string, CollisionClass*> cache_;
+    std::set<const CollisionObject*> active_objects_;
 };
 
 } // namespace collision

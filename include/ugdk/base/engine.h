@@ -11,6 +11,7 @@
 #include <ugdk/time.h>
 #include <ugdk/util.h>
 #include <ugdk/base/types.h>
+#include <ugdk/base/configuration.h>
 #include <ugdk/math/vector2D.h>
 
 namespace ugdk {
@@ -26,22 +27,6 @@ class PathManager;
  */
 class Engine {
   public:
-    struct Configuration {
-        std::string        base_path;
-        std::string      window_icon;
-        std::string     window_title;
-        Vector2D         window_size;
-        bool              fullscreen;
-        std::string default_language;
-
-        Configuration() :
-            base_path("./"),
-            window_icon(""),
-            window_title("UGDK Game"),
-            window_size(800.0, 600.0),
-            fullscreen(false),
-            default_language("en_US") {}
-    };
 
     /// Returns a pointer to the current Engine. Creates an Engine if there isn't one.
     static Engine* reference() { return reference_ ? reference_ : reference_ = new Engine; }
@@ -86,11 +71,13 @@ class Engine {
     /// Returns the window dimensions.
     Vector2D window_size();
 
-    /**@name Engine Management
-     * @{
+    /** @name Engine Management
+     ** @{
      */
+
     /// Initializes the engine. Returns true if sucessful, false otherwise.
-    /** @param configuration A Engine::Configuration struct with the planned configuration.
+    /** @param configuration A Engine::Configuration struct with the planned
+     **                      configuration.
      */
 	bool Initialize(const Configuration& configuration);
 
@@ -115,9 +102,9 @@ class Engine {
     /// Puts a scene onto the scene list, on top.
     /** @param scene The scene to be put.
      */
-    void PushScene(Scene* scene);
+    void PushScene(action::Scene* scene);
     /// Returns the current scene.
-    Scene* CurrentScene() const;
+    action::Scene* CurrentScene() const;
     /// Removes the top scene.
     void PopScene();
     /** @}
@@ -146,7 +133,7 @@ class Engine {
           LanguageManager *language_manager_;
 
     bool quit_;
-    std::list<Scene*> scene_list_;
+    std::list<action::Scene*> scene_list_;
     uint32 reported_fps_, frames_since_reset_, last_fps_report_;
 
 	Engine() :

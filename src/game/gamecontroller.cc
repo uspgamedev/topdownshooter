@@ -17,6 +17,7 @@
 namespace game {
 
 using pyramidworks::collision::CollisionInstance;
+using pyramidworks::collision::CollisionManager;
 
 static double getRandomNumber(double min, double max) {
     double n = rand();
@@ -31,13 +32,27 @@ static bool objectIsDead (const GameObject* value) {
     return is_dead;
 }
 
-GameController::GameController() : map_size_(500.0, 500.0), time_left_(new ugdk::time::TimeAccumulator(15000)), hero_(nullptr) {
+GameController::GameController() 
+    :   map_size_(500.0, 500.0), 
+        time_left_(new ugdk::time::TimeAccumulator(15000)), 
+        hero_(nullptr),
+        collision_manager_(nullptr)
+    {
     time_left_->Restart();
+
+    ugdk::Vector2D top_left;
+    ugdk::ikdtree::Box<2> box(top_left.val, map_size_.val);
+    collision_manager_ = new CollisionManager(box);
+    collision_manager_->Generate("Object");
+    collision_manager_->Generate("Creature", "Object");
+    collision_manager_->Generate("Hero", "Creature");
+    collision_manager_->Generate("Enemy", "Creature");
+    collision_manager_->Generate("Projectile", "Object");
 
     ugdk::graphic::SolidRectangle* background_rect = new ugdk::graphic::SolidRectangle(map_size_);
     content_node()->set_drawable(background_rect);
 
-    builder::ObjectBuilder builder;
+    builder::ObjectBuilder builder(collision_manager_);
     for(int i = 0; i < 5; ++i) {
         GameObject* enemy = builder.BuildEnemy();
         enemy->set_world_position(ugdk::Vector2D(getRandomNumber(0.0, map_size_.x), getRandomNumber(0.0, map_size_.y)));
@@ -45,6 +60,8 @@ GameController::GameController() : map_size_(500.0, 500.0), time_left_(new ugdk:
     }
     this->AddGameObject(hero_ = builder.BuildHero());
     hero_->set_world_position(map_size_ * 0.5);
+
+    this->AddTask(collision_manager_->GenerateHandleCollisionTask());
 }
 
 GameController::~GameController() {
@@ -52,24 +69,7 @@ GameController::~GameController() {
     if(hero_ != nullptr) delete hero_;
 }
 
-void GameController::HandleCollisions() {
-    std::list<CollisionInstance> collision_list;
-    
-    // Update objects positions in CollisionManager
-    pyramidworks::collision::CollisionManager::reference()->Update();
-
-    GameObjectList::iterator i;
-    for (i = game_objects_.begin(); i != game_objects_.end(); ++i)
-        (*i)->collision_object()->SearchCollisions(collision_list);
-
-    std::list<CollisionInstance>::iterator it;
-    for(it = collision_list.begin(); it != collision_list.end(); ++it) {
-        it->first->Handle(it->second);
-    }
-}
-
 void GameController::Update(double dt) {
-    HandleCollisions();
     super::Update(dt);
     if(time_left_->Expired() || hero_->dead()) {
         Finish();
@@ -97,13 +97,8 @@ void GameController::ClearDeadGameObjects() {
 void GameController::AddPendingGameObjects() {
     for(GameObjectList::iterator it = pending_game_objects_.begin(); it != pending_game_objects_.end(); ++it) {
         GameObject* new_obj = *it;
-        if(new_obj->graphic_component()->node() != nullptr)
-            this->content_node()->AddChild(new_obj->graphic_component()->node());
         game_objects_.push_back(new_obj);
         this->AddEntity(new_obj);
-
-        new_obj->set_game_controller(this);
-        new_obj->collision_object()->StartColliding();
     }
     pending_game_objects_.clear();
 }

@@ -6,6 +6,7 @@
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionlogic.h>
+#include <pyramidworks/collision/collisionobject.h>
 
 #include "game/builder/objectbuilder.h"
 
@@ -21,13 +22,14 @@ namespace game {
 namespace builder {
 
 COLLISION_DIRECT(double, DamageCollision, obj) {
-	GameObject *game_obj = (GameObject *) obj;
+    GameObject *game_obj = (GameObject *) obj;
     if(game_obj->damageable_component())
         game_obj->damageable_component()->Damage(data_);
 }
 
 GameObject* ObjectBuilder::BuildHero() {
-    GameObject* hero = new GameObject(new component::Graphic, new component::PlayerController, new component::Physics, new component::Damageable(10.0));
+    GameObject* hero = new GameObject(manager_, new component::Graphic, 
+        new component::PlayerController, new component::Physics, new component::Damageable(10.0));
 
     ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(15.0, 15.0));
     graphic->set_color(ugdk::Color(0.25, 1.00, 0.25));
@@ -41,7 +43,8 @@ GameObject* ObjectBuilder::BuildHero() {
 }
 
 GameObject* ObjectBuilder::BuildEnemy() {
-    GameObject* enemy = new GameObject(new component::Graphic, new component::AiController, new component::Physics, new component::Damageable(4.0));
+    GameObject* enemy = new GameObject(manager_, new component::Graphic, 
+        new component::AiController, new component::Physics, new component::Damageable(4.0));
 
     ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(15.0, 15.0));
     graphic->set_color(ugdk::Color(1.00, 0.25, 0.25));
@@ -55,7 +58,8 @@ GameObject* ObjectBuilder::BuildEnemy() {
 }
 
 GameObject* ObjectBuilder::BuildProjectile(const ugdk::Vector2D& direction, double velocity) {
-    GameObject* projectile = new GameObject(new component::Graphic, new component::IdleController, new component::Physics);
+    GameObject* projectile = new GameObject(manager_, new component::Graphic, 
+        new component::IdleController, new component::Physics);
     projectile->set_velocity(direction * velocity);
     projectile->set_timed_life(new ugdk::time::TimeAccumulator(4000));
 
