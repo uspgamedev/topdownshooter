@@ -1,3 +1,4 @@
+#include <ugdk/action/scene.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
@@ -7,7 +8,6 @@
 #include "game/component/playercontroller.h"
 
 #include "game/gameobject.h"
-#include "game/gamecontroller.h"
 #include "game/builder/objectbuilder.h"
 
 namespace game {
@@ -15,7 +15,9 @@ namespace component {
 
 const double PlayerController::VELOCITY = 100.0;
 
-PlayerController::PlayerController() : fire_cooldown_(new ugdk::time::TimeAccumulator(300)) {}
+PlayerController::PlayerController(const builder::ObjectBuilder& builder) 
+    :   fire_cooldown_(new ugdk::time::TimeAccumulator(300)),
+        builder_(builder) {}
 PlayerController::~PlayerController() { delete fire_cooldown_; }
 
 void PlayerController::Update(double dt, GameObject* owner) {
@@ -37,8 +39,7 @@ void PlayerController::Update(double dt, GameObject* owner) {
     if(input->MouseDown(ugdk::input::M_BUTTON_LEFT) && fire_cooldown_->Expired()) {
         ugdk::Vector2D direction = input->GetMousePosition() - VIDEO_MANAGER()->video_size() * 0.5;
         
-        builder::ObjectBuilder build(owner->game_controller()->collision_manager());
-        GameObject* proj = build.BuildProjectile(direction.Normalize(), 400);
+        GameObject* proj = builder_.BuildProjectile(direction.Normalize(), 400);
         proj->set_world_position(owner->world_position());
         owner->game_controller()->QueuedAddEntity(proj);
 

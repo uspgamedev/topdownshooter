@@ -4,6 +4,7 @@
 #include <ugdk/time.h>
 #include "game/component/controller.h"
 #include "game.h"
+#include "game/builder/objectbuilder.h"
 
 namespace game {
 namespace component {
@@ -11,7 +12,7 @@ namespace component {
 class PlayerController : public Controller {
   typedef Controller super;
   public:
-    PlayerController();
+    PlayerController(const builder::ObjectBuilder& builder);
     ~PlayerController();
 
     void Update(double dt, GameObject* owner);
@@ -19,6 +20,7 @@ class PlayerController : public Controller {
   private:
     static const double VELOCITY;
     ugdk::time::TimeAccumulator* fire_cooldown_;
+    builder::ObjectBuilder builder_;
 };
 
 } // namespace component

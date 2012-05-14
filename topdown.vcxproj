@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\game\builder\scenebuilder.cc" />
     <ClCompile Include="src\game\component\physics.cc" />
     <ClCompile Include="src\game\component\damageable.cc" />
     <ClCompile Include="src\game\builder\objectbuilder.cc" />
@@ -162,11 +163,11 @@
     <ClCompile Include="src\game\component\playercontroller.cc" />
     <ClCompile Include="src\game\component\graphic.cc" />
     <ClCompile Include="src\game\gameobject.cc" />
-    <ClCompile Include="src\game\gamecontroller.cc" />
     <ClCompile Include="src\main.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\game\builder\scenebuilder.h" />
     <ClInclude Include="src\game\component\physics.h" />
     <ClInclude Include="src\game\component\damageable.h" />
     <ClInclude Include="src\game\builder\objectbuilder.h" />
@@ -176,7 +177,6 @@
     <ClInclude Include="src\game\component\graphic.h" />
     <ClInclude Include="src\game\component.h" />
     <ClInclude Include="src\game\gameobject.h" />
-    <ClInclude Include="src\game\gamecontroller.h" />
     <ClInclude Include="src\game\component\playercontroller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

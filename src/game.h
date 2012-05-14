@@ -3,7 +3,6 @@
 
 namespace game {
 
-class GameController;
 class GameObject;
 
 } // namespace game

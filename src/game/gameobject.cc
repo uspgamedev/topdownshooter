@@ -1,10 +1,10 @@
+#include <ugdk/action/scene.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
 
 #include "game/gameobject.h"
 
-#include "game/gamecontroller.h"
 #include "game/component/graphic.h"
 #include "game/component/controller.h"
 #include "game/component/damageable.h"
@@ -48,7 +48,7 @@ void GameObject::set_world_position(const ugdk::Vector2D& position) {
 }
 
 void GameObject::OnSceneAdd(ugdk::action::Scene* scene) {
-    game_controller_ = static_cast<GameController*>(scene);
+    game_controller_ = scene;
     collision_object_->StartColliding();
     if(graphic_component_ && graphic_component_->node())
         scene->content_node()->AddChild(graphic_component_->node());

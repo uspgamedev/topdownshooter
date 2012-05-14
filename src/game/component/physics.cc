@@ -1,22 +1,19 @@
 #include <cstdlib>
 #include "game/component/physics.h"
-
 #include "game/gameobject.h"
-#include "game/gamecontroller.h"
 
 namespace game {
 namespace component {
 
 #define PI 3.1415926535897932384626433832795
 
-Physics::Physics() {
-}
+Physics::Physics(const ugdk::Vector2D& bounds) : bounds_(bounds) {}
 
 Physics::~Physics() {
 }
 
 void Physics::Update(double dt, GameObject* owner) {
-    ugdk::Vector2D map_size = owner->game_controller()->map_size();
+    ugdk::Vector2D map_size = bounds_;
     ugdk::Vector2D next_position = owner->world_position() + owner->velocity() * dt;
 
     if(next_position.x < 0) next_position.x = 0;

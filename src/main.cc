@@ -1,5 +1,5 @@
 #include <ugdk/base/engine.h>
-#include "game/gamecontroller.h"
+#include "game/builder/scenebuilder.h"
 
 int main(int argc, char **argv) {
     ugdk::Configuration engine_config;
@@ -9,7 +9,8 @@ int main(int argc, char **argv) {
     ugdk::Engine* engine = ugdk::Engine::reference();
     engine->Initialize(engine_config);
 
-    engine->PushScene(new game::GameController);
+    game::builder::SceneBuilder builder;
+    engine->PushScene(builder.BuildRandomScene());
 
     engine->Run();
     engine->Release();

@@ -6,7 +6,6 @@
 #include <ugdk/time.h>
 #include <pyramidworks/collision.h>
 #include "game/component.h"
-#include "game.h"
 
 namespace game {
 
@@ -35,8 +34,7 @@ class GameObject : public ugdk::action::Entity {
     void Die() { to_be_removed_ = true; }
     bool dead() const { return to_be_removed(); }
 
-    GameController* game_controller() { return game_controller_; }
-    void set_game_controller(GameController* game) { game_controller_ = game; }
+    ugdk::action::Scene* game_controller() { return game_controller_; }
 
     void set_timed_life(ugdk::time::TimeAccumulator* timed_life) { timed_life_ = timed_life; }
 
@@ -52,7 +50,7 @@ class GameObject : public ugdk::action::Entity {
     ugdk::Vector2D world_position_;
     ugdk::Vector2D velocity_;
     pyramidworks::collision::CollisionObject* collision_object_;
-    GameController* game_controller_;
+    ugdk::action::Scene* game_controller_;
 };
 
 } // namespace game
