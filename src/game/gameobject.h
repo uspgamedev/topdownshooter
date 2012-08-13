@@ -12,7 +12,7 @@ namespace game {
 class GameObject : public ugdk::action::Entity {
   public:
     GameObject(pyramidworks::collision::CollisionManager*, component::Graphic*, 
-        component::Controller*, component::Physics*, component::Damageable* = nullptr);
+        component::Controller*, component::Physics*, component::Damageable* = NULL);
     ~GameObject();
 
     void Update(double dt);
