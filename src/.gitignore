@@ -1,0 +1,11 @@
+!CMakeLists.txt
+/Debug
+/Release
+/Makefile
+x64/
+Win32/
+/game/config.h
+topdownshooter.dir/
+*.py
+*.pyc
+/*.dll

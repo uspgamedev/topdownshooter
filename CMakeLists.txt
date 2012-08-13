@@ -5,7 +5,7 @@ set(topdownshooter_VERSION_MINOR 1)
 set(topdownshooter_VERSION_SUBMINOR 2)
 SET(topdownshooter_FULL_VERSION "${topdownshooter_FULL_VERSION_VERSION_MAJOR}.${topdownshooter_FULL_VERSION_VERSION_MINOR}.${topdownshooter_FULL_VERSION_VERSION_SUBMINOR} Alpha")
 
-MESSAGE("== Topdown Shooter -- version ${topdownshooter_FULL_VERSION_FULL_VERSION} ==")
+MESSAGE("== Topdown Shooter -- version ${topdownshooter_FULL_VERSION} ==")
 
 # TODO: document why we need this.
 cmake_policy(SET CMP0015 NEW)

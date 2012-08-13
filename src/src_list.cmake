@@ -1,0 +1,23 @@
+SET(GAME_SRCS 
+    ./game.h 
+    ./game/builder/objectbuilder.cc 
+    ./game/builder/objectbuilder.h 
+    ./game/builder/scenebuilder.cc 
+    ./game/builder/scenebuilder.h 
+    ./game/component.h 
+    ./game/component/aicontroller.cc 
+    ./game/component/aicontroller.h 
+    ./game/component/controller.h 
+    ./game/component/damageable.cc 
+    ./game/component/damageable.h 
+    ./game/component/graphic.cc 
+    ./game/component/graphic.h 
+    ./game/component/idlecontroller.h 
+    ./game/component/physics.cc 
+    ./game/component/physics.h 
+    ./game/component/playercontroller.cc 
+    ./game/component/playercontroller.h 
+    ./game/gameobject.cc 
+    ./game/gameobject.h 
+    ./main.cc 
+)
