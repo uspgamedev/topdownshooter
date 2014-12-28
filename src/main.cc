@@ -1,18 +1,22 @@
-#include <ugdk/base/engine.h>
+
+#include <ugdk/system/engine.h>
+#include <ugdk/system/configuration.h>
+
 #include "game/builder/scenebuilder.h"
+#include <ugdk/action/scene.h>
+
+using namespace ugdk;
 
 int main(int argc, char **argv) {
-    ugdk::Configuration engine_config;
-    engine_config.window_title = "Top-down shooter";
-    engine_config.fullscreen   = false;
+    system::Configuration engine_config;
+    engine_config.windows_list[0].title = "Top-down shooter";
+    engine_config.windows_list[0].fullscreen = false;
 
-    ugdk::Engine* engine = ugdk::Engine::reference();
-    engine->Initialize(engine_config);
+    system::Initialize(engine_config);
 
-    game::builder::SceneBuilder builder;
-    engine->PushScene(builder.BuildRandomScene());
+    system::PushSceneFactory(game::builder::SceneBuilder::BuildRandomScene);
 
-    engine->Run();
-    engine->Release();
+    system::Run();
+    system::Release();
     return 0;
 }

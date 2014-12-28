@@ -1,45 +1,51 @@
-#include <ugdk/action/scene.h>
-#include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/input/inputmanager.h>
-#include <ugdk/input/keys.h>
-#include <ugdk/time/timeaccumulator.h>
 
 #include "game/component/playercontroller.h"
 
 #include "game/gameobject.h"
+#include "game/gamescene.h"
 #include "game/builder/objectbuilder.h"
+
+#include <ugdk/graphic/module.h>
+#include <ugdk/graphic/rendertarget.h>
+#include <ugdk/input/module.h>
+#include <ugdk/input/scancode.h>
+#include <ugdk/time/timeaccumulator.h>
+
 
 namespace game {
 namespace component {
-
+ 
+using namespace ugdk;
 const double PlayerController::VELOCITY = 100.0;
 
-PlayerController::PlayerController(const builder::ObjectBuilder& builder) 
-    :   fire_cooldown_(new ugdk::time::TimeAccumulator(300)),
-        builder_(builder) {}
-PlayerController::~PlayerController() { delete fire_cooldown_; }
+PlayerController::PlayerController(const builder::ObjectBuilder& builder)
+    : fire_cooldown_(new ugdk::time::TimeAccumulator(300))
+    , builder_(builder) {}
+
+PlayerController::~PlayerController() {}
 
 void PlayerController::Update(double dt, GameObject* owner) {
-    ugdk::input::InputManager* input = INPUT_MANAGER();
+    const auto& keyboard = input::manager()->keyboard();
 
-    ugdk::Vector2D velocity;
+    math::Vector2D velocity;
 
-    if(input->KeyDown(ugdk::input::K_RIGHT) || input->KeyDown(ugdk::input::K_d))
+    if (keyboard.IsDown(input::Scancode::RIGHT) || keyboard.IsDown(input::Scancode::D))
         velocity.x += VELOCITY;
-    if(input->KeyDown(ugdk::input::K_LEFT) || input->KeyDown(ugdk::input::K_a))
+    if (keyboard.IsDown(input::Scancode::LEFT) || keyboard.IsDown(input::Scancode::A))
         velocity.x -= VELOCITY;
-    if(input->KeyDown(ugdk::input::K_UP) || input->KeyDown(ugdk::input::K_w))
+    if (keyboard.IsDown(input::Scancode::UP) || keyboard.IsDown(input::Scancode::W))
         velocity.y -= VELOCITY;
-    if(input->KeyDown(ugdk::input::K_DOWN) || input->KeyDown(ugdk::input::K_s))
+    if (keyboard.IsDown(input::Scancode::DOWN) || keyboard.IsDown(input::Scancode::S))
         velocity.y += VELOCITY;
 
     owner->set_velocity(velocity);
 
-    if(input->MouseDown(ugdk::input::M_BUTTON_LEFT) && fire_cooldown_->Expired()) {
-        ugdk::Vector2D direction = input->GetMousePosition() - VIDEO_MANAGER()->video_size() * 0.5;
+    const auto& mouse = input::manager()->mouse();
+
+    if (mouse.IsDown(input::MouseButton::LEFT) && fire_cooldown_->Expired()) {
+        ugdk::math::Vector2D direction = mouse.position() - graphic::manager()->screen()->size() * 0.5;
         
-        GameObject* proj = builder_.BuildProjectile(direction.Normalize(), 400);
+        auto proj = builder_.BuildProjectile(direction.Normalize(), 400);
         proj->set_world_position(owner->world_position());
         owner->game_controller()->QueuedAddEntity(proj);
 

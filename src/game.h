@@ -4,7 +4,8 @@
 namespace game {
 
 class GameObject;
+class GameScene;
 
 } // namespace game
 
-#endif
+#endif // TOPDOWN_GAME_H_

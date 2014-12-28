@@ -19,5 +19,7 @@ SET(GAME_SRCS
     ./game/component/playercontroller.h 
     ./game/gameobject.cc 
     ./game/gameobject.h 
+    ./game/gamescene.cc 
+    ./game/gamescene.h 
     ./main.cc 
 )

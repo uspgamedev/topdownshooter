@@ -1,11 +1,11 @@
-#include <ugdk/base/engine.h>
-#include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/solidrectangle.h>
-#include <ugdk/graphic/videomanager.h>
+
+#include <ugdk/ui/node.h>
+#include <ugdk/ui/drawable/texturedrectangle.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/system/compatibility.h>
 #include <pyramidworks/geometry/rect.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/collision/collisionobject.h>
 
 #include "game/builder/objectbuilder.h"
@@ -21,56 +21,60 @@
 namespace game {
 namespace builder {
 
-COLLISION_DIRECT(double, DamageCollision, obj) {
-    GameObject *game_obj = (GameObject *) obj;
-    if(game_obj->damageable_component())
-        game_obj->damageable_component()->Damage(data_);
+using namespace ugdk;
+
+pyramidworks::collision::CollisionLogic DamageCollision(int damage) {
+    return [damage](const pyramidworks::collision::CollisionObject* obj) {
+        if (GameObject *game_obj = dynamic_cast<GameObject*>(obj->data()))
+            if (game_obj->damageable_component())
+                game_obj->damageable_component()->Damage(damage);
+    };
 }
 
-GameObject* ObjectBuilder::BuildHero() {
-    GameObject* hero = new GameObject(manager_, new component::Graphic, 
-        new component::PlayerController(*this), new component::Physics(map_size_), new component::Damageable(10.0));
+std::shared_ptr<GameObject> ObjectBuilder::BuildHero() {
+    std::shared_ptr<GameObject> hero(new GameObject(new component::Graphic,
+        new component::PlayerController(*this), new component::Physics(map_size_), new component::Damageable(10.0)));
 
-    ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(15.0, 15.0));
-    graphic->set_color(ugdk::Color(0.25, 1.00, 0.25));
-    graphic->set_hotspot(ugdk::graphic::Drawable::CENTER);
-    hero->graphic_component()->node()->set_drawable(graphic);
+    auto node = hero->graphic_component()->node();
+    node->set_drawable(MakeUnique<ugdk::ui::TexturedRectangle>(graphic::manager()->white_texture(), math::Vector2D(15.0, 15.0)));
+    node->drawable()->set_hotspot(ui::HookPoint::CENTER);
+    node->effect().set_color(Color(0.25, 1.00, 0.25));
 
-    hero->collision_object()->InitializeCollisionClass("Hero");
-    hero->collision_object()->set_shape(new pyramidworks::geometry::Rect(15.0, 15.0));
+    hero->collision_object()->ChangeCollisionClass("Hero");
+    hero->collision_object()->ChangeShape(MakeUnique<pyramidworks::geometry::Rect>(15.0, 15.0));
 
     return hero;
 }
 
-GameObject* ObjectBuilder::BuildEnemy() {
-    GameObject* enemy = new GameObject(manager_, new component::Graphic, 
-        new component::AiController, new component::Physics(map_size_), new component::Damageable(4.0));
+std::shared_ptr<GameObject> ObjectBuilder::BuildEnemy() {
+    std::shared_ptr<GameObject> enemy(new GameObject(new component::Graphic,
+        new component::AiController, new component::Physics(map_size_), new component::Damageable(4.0)));
 
-    ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(15.0, 15.0));
-    graphic->set_color(ugdk::Color(1.00, 0.25, 0.25));
-    graphic->set_hotspot(ugdk::graphic::Drawable::CENTER);
-    enemy->graphic_component()->node()->set_drawable(graphic);
+    auto node = enemy->graphic_component()->node();
+    node->set_drawable(MakeUnique<ugdk::ui::TexturedRectangle>(graphic::manager()->white_texture(), math::Vector2D(15.0, 15.0)));
+    node->drawable()->set_hotspot(ui::HookPoint::CENTER);
+    node->effect().set_color(Color(1.00, 0.25, 0.25));
 
-    enemy->collision_object()->InitializeCollisionClass("Enemy");
-    enemy->collision_object()->set_shape(new pyramidworks::geometry::Rect(15.0, 15.0));
+    enemy->collision_object()->ChangeCollisionClass("Enemy");
+    enemy->collision_object()->ChangeShape(MakeUnique<pyramidworks::geometry::Rect>(15.0, 15.0));
 
     return enemy;
 }
 
-GameObject* ObjectBuilder::BuildProjectile(const ugdk::Vector2D& direction, double velocity) {
-    GameObject* projectile = new GameObject(manager_, new component::Graphic, 
-        new component::IdleController, new component::Physics(map_size_));
+std::shared_ptr<GameObject> ObjectBuilder::BuildProjectile(const ugdk::math::Vector2D& direction, double velocity) {
+    std::shared_ptr<GameObject> projectile(new GameObject(new component::Graphic,
+        new component::IdleController, new component::Physics(map_size_)));
     projectile->set_velocity(direction * velocity);
     projectile->set_timed_life(new ugdk::time::TimeAccumulator(4000));
 
-    ugdk::graphic::SolidRectangle* graphic = new ugdk::graphic::SolidRectangle(ugdk::Vector2D(5.0, 5.0));
-    graphic->set_color(ugdk::Color(0.25, 0.25, 1.00));
-    graphic->set_hotspot(ugdk::graphic::Drawable::CENTER);
-    projectile->graphic_component()->node()->set_drawable(graphic);
+    auto node = projectile->graphic_component()->node();
+    node->set_drawable(MakeUnique<ugdk::ui::TexturedRectangle>(graphic::manager()->white_texture(), math::Vector2D(5.0, 5.0)));
+    node->drawable()->set_hotspot(ui::HookPoint::CENTER);
+    node->effect().set_color(Color(0.25, 0.25, 1.00));
 
-    projectile->collision_object()->InitializeCollisionClass("Projectile");
-    projectile->collision_object()->set_shape(new pyramidworks::geometry::Rect(5.0, 5.0));
-    projectile->collision_object()->AddCollisionLogic("Enemy", new DamageCollision(5.0));
+    projectile->collision_object()->ChangeCollisionClass("Projectile");
+    projectile->collision_object()->ChangeShape(MakeUnique<pyramidworks::geometry::Rect>(5.0, 5.0));
+    projectile->collision_object()->AddCollisionLogic("Enemy", DamageCollision(5.0));
 
     return projectile;
 }

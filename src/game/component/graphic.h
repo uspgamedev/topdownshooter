@@ -1,7 +1,7 @@
 #ifndef TOPDOWN_GAME_COMPONENT_GRAPHIC_H_
 #define TOPDOWN_GAME_COMPONENT_GRAPHIC_H_
 
-#include <ugdk/graphic.h>
+#include <ugdk/ui.h>
 #include "game.h"
 
 namespace game {
@@ -15,11 +15,11 @@ class Graphic {
 
     void Update(double dt, GameObject* owner);
 
-          ugdk::graphic::Node* node()       { return node_; }
-    const ugdk::graphic::Node* node() const { return node_; }
+    std::shared_ptr<ugdk::ui::Node> node() { return node_; }
+    std::shared_ptr<const ugdk::ui::Node> node() const { return node_; }
 
   private:
-    ugdk::graphic::Node* node_;
+    std::shared_ptr<ugdk::ui::Node> node_;
 };
 
 } // namespace component

@@ -1,18 +1,16 @@
 #ifndef TOPDOWN_GAME_BUILDER_SCENEBUILDER_H_
 #define TOPDOWN_GAME_BUILDER_SCENEBUILDER_H_
 
-#include <ugdk/action/scene.h>
+#include <ugdk/action.h>
+#include <memory>
 
 namespace game {
 namespace builder {
+namespace SceneBuilder {
 
-class SceneBuilder {
-  public:
-    SceneBuilder() {}
-    ~SceneBuilder() {}
+std::unique_ptr<ugdk::action::Scene> BuildRandomScene();
 
-    ugdk::action::Scene* BuildRandomScene();
-};
+}
 
 } // namespace builder
 } // namespace game

@@ -1,4 +1,4 @@
-#include <ugdk/graphic/node.h>
+#include <ugdk/ui/node.h>
 
 #include "game/component/graphic.h"
 
@@ -7,14 +7,15 @@
 namespace game {
 namespace component {
 
-Graphic::Graphic() : node_(new ugdk::graphic::Node) {}
+Graphic::Graphic() : node_(new ugdk::ui::Node) {}
 
 Graphic::~Graphic() {
-    delete node_;
+    if (node_->parent())
+        node_->parent()->RemoveChild(node_.get());
 }
 
 void Graphic::Update(double dt, GameObject* owner) {
-    node_->modifier()->set_offset(owner->world_position());
+    node_->geometry().set_offset(owner->world_position());
 }
 
 } // namespace component

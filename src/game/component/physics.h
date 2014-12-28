@@ -9,12 +9,12 @@ namespace component {
 
 class Physics {
   public:
-    Physics(const ugdk::Vector2D& bounds);
+    Physics(const ugdk::math::Vector2D& bounds);
     ~Physics();
 
     void Update(double dt, GameObject* owner);
   private:
-    ugdk::Vector2D bounds_;
+    ugdk::math::Vector2D bounds_;
 };
 
 } // namespace component

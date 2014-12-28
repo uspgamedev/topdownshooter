@@ -6,6 +6,8 @@
 #include "game.h"
 #include "game/builder/objectbuilder.h"
 
+#include <memory>
+
 namespace game {
 namespace component {
 
@@ -19,7 +21,7 @@ class PlayerController : public Controller {
 
   private:
     static const double VELOCITY;
-    ugdk::time::TimeAccumulator* fire_cooldown_;
+    std::unique_ptr<ugdk::time::TimeAccumulator> fire_cooldown_;
     builder::ObjectBuilder builder_;
 };
 

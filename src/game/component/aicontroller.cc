@@ -29,7 +29,7 @@ AiController::~AiController() {
 void AiController::Update(double dt, GameObject* owner) {
     if(timer_->Expired()) {
         double angle = getRandomNumber(0.0, 2*PI);
-        ugdk::Vector2D velocity(VELOCITY * cos(angle), VELOCITY * sin(angle));
+        ugdk::math::Vector2D velocity(VELOCITY * cos(angle), VELOCITY * sin(angle));
         owner->set_velocity(velocity);
 
         timer_->Restart(static_cast<int>(1000 * getRandomNumber(MIN_WAIT, MAX_WAIT)));

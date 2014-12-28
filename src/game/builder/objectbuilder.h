@@ -5,22 +5,23 @@
 #include <pyramidworks/collision.h>
 #include "game.h"
 
+#include <memory>
+
 namespace game {
 namespace builder {
 
 class ObjectBuilder {
   public:
-      ObjectBuilder(const ugdk::Vector2D& map_size, pyramidworks::collision::CollisionManager* manager)
-        : map_size_(map_size), manager_(manager) {}
+      ObjectBuilder(const ugdk::math::Vector2D& map_size)
+        : map_size_(map_size) {}
     ~ObjectBuilder() {}
 
-    GameObject* BuildHero();
-    GameObject* BuildEnemy();
-    GameObject* BuildProjectile(const ugdk::Vector2D& direction, double velocity = 200);
+    std::shared_ptr<GameObject> BuildHero();
+    std::shared_ptr<GameObject> BuildEnemy();
+    std::shared_ptr<GameObject> BuildProjectile(const ugdk::math::Vector2D& direction, double velocity = 200);
 
   private:
-    ugdk::Vector2D map_size_;
-    pyramidworks::collision::CollisionManager* manager_;
+    ugdk::math::Vector2D map_size_;
 };
 
 } // namespace builder
